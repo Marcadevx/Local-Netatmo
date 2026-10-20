@@ -1,0 +1,24 @@
+[Unit]
+Description=Local Netatmo HomeKit HTTP adapter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=local-netatmo
+Group=local-netatmo
+WorkingDirectory=/opt/local-netatmo
+ExecStart=/usr/bin/node --env-file-if-exists=.env src/server.js
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=25
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/local-netatmo/data
+
+[Install]
+WantedBy=multi-user.target
